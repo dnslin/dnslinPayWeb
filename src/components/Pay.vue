@@ -21,7 +21,6 @@ export default {
         correctLevel: QRCode.CorrectLevel.H
       })
       this.qrcode = qrcode
-      console.log(this.qrcode)
     }
   },
 
@@ -32,5 +31,14 @@ export default {
 </script>
 
 <style>
-
+.qrcode {
+  display: inline-block;
+}
+img {
+  width: 132px;
+  height: 132px;
+  background-color: #fff;
+  padding: 6px;
+  box-sizing: border-box;
+}
 </style>
