@@ -7,8 +7,9 @@
 <script>
 import Pay from './components/Pay.vue'
 import QRCode from 'qrcodejs2'
+import ElementUI from 'element-ui'
 export default {
-  components: { Pay, QRCode },
+  components: { Pay, QRCode, ElementUI },
   name: 'App'
 }
 </script>
