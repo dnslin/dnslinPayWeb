@@ -7,12 +7,12 @@
         <el-form-item label="">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="活动区域">
+        <el-form-item label="输入金额">
          <el-input v-model="form.region"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
-          <el-button>取消</el-button>
+          <el-button type="primary" @click="onSubmit">创建订单</el-button>
+          <el-button>取消订单</el-button>
         </el-form-item>
       </el-form>
     </div>
