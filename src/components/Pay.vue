@@ -43,7 +43,7 @@ export default {
     async action () {
       let response = await axios({
         method: 'post',
-        url: '/admin/user/pages',
+        url: 'http://127.0.0.1:6789/api/pay',
         data: this.table
       })
       console.log(response)
