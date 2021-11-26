@@ -1,43 +1,43 @@
 <template>
-  <div class="app">
-    <!-- <div class="qrcode" ref="qrCodeUrl"></div> -->
-    <div class="active">
+  <div class="app" >
+    <div class="active" >
       <form class="login" :model="table">
         <p>支付宝当面付</p>
         <input v-model="table.price" placeholder="金额" />
-        <input v-model="table.mail" placeholder="通知邮箱" />
+        <input v-model="table.email" placeholder="通知邮箱" />
         <input v-model="table.remark" placeholder="备注" />
-        <input type="submit" class="btn" value="立即支付" @click="onSubmit" />
+        <input type="submit" class="btn" value="立即支付" @click="onSubmit"/>
       </form>
     </div>
+     <div class="qrcode" ref="qrCodeUrl"></div>
   </div>
 </template>
 
 <script>
-// import QRCode from 'qrcodejs2'
+import QRCode from 'qrcodejs2'
 import axios from 'axios'
 export default {
   data: function () {
     return {
-      qrcode: '',
+      qrcode: null,
       table: {
       }
     }
   },
   methods: {
-    // creatQrCode () {
-    //   let qrcode = new QRCode(this.$refs.qrCodeUrl, {
-    //     text: 'https://dnslin.com',
-    //     width: 100,
-    //     height: 100,
-    //     colorDark: '#000000',
-    //     colorLight: '#ffffff',
-    //     correctLevel: QRCode.CorrectLevel.H
-    //   })
-    //   this.qrcode = qrcode
-    // },
+    creatQrCode (text) {
+      let qrcode = new QRCode(this.$refs.qrCodeUrl, {
+        text: text,
+        width: 100,
+        height: 100,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      })
+      console.log(this.qrcode)
+      this.qrcode = qrcode
+    },
     onSubmit () {
-      console.log('submit!')
       this.action()
     },
     async action () {
@@ -46,16 +46,14 @@ export default {
         url: 'http://127.0.0.1:6789/api/pay',
         data: this.table
       })
-      console.log(response)
-      if (response.code === '200') {
-        this.qrcode = response.data
-      }
+      if (response.data.code === '200') {
+        console.log(response.data.data)
+        let text = response.data.data
+        this.creatQrCode(text)
+      } else {}
     }
-  },
-
-  mounted () {
-    // this.creatQrCode()
   }
+
 }
 </script>
 
