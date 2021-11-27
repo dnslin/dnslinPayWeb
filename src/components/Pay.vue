@@ -1,44 +1,58 @@
 <template>
-  <div class="app" >
-    <div class="active" >
+  <div class="app">
+    <div class="active">
       <form class="login" :model="table">
         <p>支付宝当面付</p>
         <input v-model="table.price" placeholder="金额" />
         <input v-model="table.email" placeholder="通知邮箱" />
         <input v-model="table.remark" placeholder="备注" />
-        <input type="submit" class="btn" value="立即支付" @click="onSubmit"/>
+        <input type="submit" class="btn" value="立即支付" @click="onSubmit" />
       </form>
     </div>
-     <div class="qrcode" ref="qrCodeUrl"></div>
+    <div>
+      <el-dialog
+      title="付款二维码"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center
+      destroy-on-close
+    >
+    <vue-qr :logoSrc="imageUrl" :text="qrcode" :size="200"></vue-qr>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialog">取 消</el-button>
+        <el-button type="primary" @click="centerDialog"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
-import QRCode from 'qrcodejs2'
 import axios from 'axios'
+import vueQr from 'vue-qr'
+import { Message } from 'element-ui'
 export default {
   data: function () {
     return {
-      qrcode: null,
-      table: {
-      }
+      qrcode: '',
+      table: {},
+      centerDialogVisible: false,
+      imageUrl: 'https://pan.dnslin.com/Cloud/图片/picture/logo.png'
     }
   },
+  components: {
+    vueQr
+  },
+
   methods: {
-    creatQrCode (text) {
-      let qrcode = new QRCode(this.$refs.qrCodeUrl, {
-        text: text,
-        width: 100,
-        height: 100,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      })
-      console.log(this.qrcode)
-      this.qrcode = qrcode
-    },
     onSubmit () {
       this.action()
+    },
+    centerDialog () {
+      this.qrcode = null
+      this.centerDialogVisible = false
     },
     async action () {
       let response = await axios({
@@ -47,13 +61,18 @@ export default {
         data: this.table
       })
       if (response.data.code === '200') {
-        console.log(response.data.data)
-        let text = response.data.data
-        this.creatQrCode(text)
-      } else {}
+        console.log(response.data)
+        this.centerDialogVisible = true
+        this.qrcode = response.data.data
+      } else {
+        Message({
+          message: response.data.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
     }
   }
-
 }
 </script>
 

@@ -13,8 +13,10 @@
   "dependencies": {
     "axios": "^0.24.0",
     "element-ui": "^2.15.6",
+    "qrcode.vue": "^3.3.3",
     "qrcodejs2": "0.0.2",
     "vue": "^2.5.2",
+    "vue-qr": "^3.2.2",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
