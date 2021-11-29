@@ -38,15 +38,16 @@
           </tr>
           <tr>
             <td style="text-align: center">
-
-              <span style="font-size: 10px">扫码支付，请在<i class="el-icon-time"></i>{{result}}完成支付</span
+              <span style="font-size: 10px"
+                >扫码支付，请在<i class="el-icon-time"></i
+                >{{ result }}完成支付</span
               >
             </td>
           </tr>
           <tr>
             <td style="text-align: center">
               <img
-                src="https://fb.ihouyu.cn/alipay/web/static/picture/alipay.jpg"
+                src="../assets/T_alipay.png"
                 alt=""
                 width="130"
                 height="43"
@@ -91,8 +92,8 @@ export default {
   },
   methods: {
     secondToDate (result) {
-      var m = Math.floor((result / 60 % 60))
-      var s = Math.floor((result % 60))
+      var m = Math.floor((result / 60) % 60)
+      var s = Math.floor(result % 60)
       this.result = m + '分钟' + s + '秒'
     },
     // 倒计时
@@ -117,6 +118,7 @@ export default {
       // 清除定时器
       clearInterval(this.timer)
       this.timer = null
+      this.centerDialogVisible = false
       Message({
         message: '订单已超时,如未支付请重新下单',
         type: 'warning',
@@ -132,7 +134,7 @@ export default {
     async action () {
       let response = await axios({
         method: 'post',
-        url: 'http://127.0.0.1:6789/api/pay',
+        url: 'http://pay.zwm.me/api/pay',
         data: this.table
       })
       if (response.data.code === '202') {
@@ -171,11 +173,10 @@ export default {
         Message({
           message: response.data.message,
           type: 'error',
-          duration: 3 * 1000
+          duration: 5 * 1000
         })
       }
     }
-
   }
 }
 </script>
@@ -193,14 +194,14 @@ export default {
   text-align: center;
 }
 .dialogClass {
-   background: rgba(255, 255, 255, 0.836);
+  background: rgba(255, 255, 255, 0.836);
   border-radius: 10px;
 }
 table {
   font-family: STXihei, "微软雅黑";
 }
 .el-dialog .el-dialog__body {
-   background: rgba(255, 255, 255, 0.021);
+  background: rgba(255, 255, 255, 0.021);
   display: flex;
   justify-content: center;
   align-items: center;
